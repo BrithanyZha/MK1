@@ -9,15 +9,14 @@ class CreateHistoryTable extends Migration
     public function up()
     {
         Schema::create('history', function (Blueprint $table) {
+
             $table->id();
-            $table->string('nama_bahan');
-            $table->string('satuan');
-            $table->integer('jml_stok');
-            $table->string('keterangan')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable(); // Assuming the user_id can be nullable
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
-
+            $table->foreignId('bahan_id')->constrained('bahan');
+            $table->foreignId('outlet_id')->constrained('outlets');
+            $table->foreignId('unit_id')->constrained('unit');
+            $table->float('qty_stok');
+            $table->text('keterangan');
+            $table->string('user_name');
             $table->timestamps();
         });
     }

@@ -7,24 +7,24 @@ class CreateHistorymenuTable extends Migration
 {
     public function up()
     {
-        Schema::create('historymenu', function (Blueprint $table) {
+        Schema::create('menu_history', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_menu');
-            $table->json('nama_bahan');
-            $table->json('jml_takaran');
-            $table->json('satuan');
+            
+            $table->foreignId('outlet_id')->constrained('outlets');
+            $table->foreignId('menu_id')->constrained('menu');
+            $table->foreignId('bahan_id')->constrained('bahan_inisiasi');
+            $table->integer('qty_takaran');
+            $table->foreignId('unit_id')->constrained('unit');
             $table->text('keterangan');
             $table->string('user_name');
-            // $table->unsignedBigInteger('user_id');
             $table->timestamps();
-
-            // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+          
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('historymenu');
+        Schema::dropIfExists('menu_history');
     }
 }
 

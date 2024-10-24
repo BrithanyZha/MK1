@@ -1,320 +1,190 @@
 @extends('dashboard.index')
-@if(Auth::user()->role==='admin')
-    
-    @section('topbar')
-    <ul class="navbar-nav ml-auto">
-        <!-- Nav Item - User Information -->
-        <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
-                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
-            </a>
-            <!-- Dropdown - User Information -->
-            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Profile
-                </a>
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Activity Log
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
-                </a>
-            </div>
-        </li>
-    </ul>
 
-    </nav>
-    @endsection
+@section('main')
+<div class="container-fluid">
+    {{-- Pesan Sukses --}}
+    @if(session('success'))
+        <div class="alert alert-success mt-2">
+            {{ session('success') }}
+        </div>
+    @endif
 
-                                                        {{-- NAVITEM --}}
+    {{-- Form untuk Menambahkan Menu Terjual --}}
+    <div class="row justify-content-center">
+        <div class="col-lg-12 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3 bg-success text-white">
 
-    @section('navitem')
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Stok Barang
-            </div>
-
-            
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Stok</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Olah Data Stok:</h6>
-                        <a class="collapse-item" href="{{ route('tambah')}}">Add Stok</a>
-                        <a class="collapse-item" href="{{ route('satuan')}}">Add Satuan</a>
-                        <a class="collapse-item" href="{{ route('showbahan')}}">List Stok</a>
-                        <a class="collapse-item" href="{{ route('history')}}">History</a>
-
-
-                        
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Menu</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Olah Data Menu:</h6>
-                        <a class="collapse-item" href="{{ route('addmenu.index')}}">Add Menu</a>
-                        <a class="collapse-item" href="{{ route('listmenu') }}">List Menu</a>
-                        <a class="collapse-item" href="{{ route('historymenu') }}">History</a>
-                        <a class="collapse-item" href="{{ route('menuterjual') }}">Menu Terjual</a>
-                        <a class="collapse-item" href="{{ route('menuterjual.show') }}"> History Menu Terjual</a>
-
-                    
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Laporan Stok
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Cetak Laporan</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Detail:</h6>
-                        <a class="collapse-item" href="perbandingan.html">Perbandingan</a>
-                        <a class="collapse-item" href="perbandingan.html">Perhitungan</a>
- 
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>
-
-    @endsection
-    @section('main')
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4>Menu Terjual</h4>
+                    <h2 class="text-center m-0 font-weight-bold h3" style="font-size: 1.5rem;">Tambah Menu Terjual</h2>
                 </div>
                 <div class="card-body">
-
-
-
-                        {{-- <select name="nama_menu" class="form-control" required>
-                            @foreach($menu as $item)
-                                <option value="{{ $item->nama_menu }}">{{ $item->nama_menu }}</option>
-                            @endforeach
-                        </select> --}}
+                    <form action="{{ route('menuterjual.create') }}" method="POST">
+                        @csrf
+                        <!-- Hidden Outlet ID Field -->
+                        <input type="hidden" name="outlet_id" value="{{ request()->input('outlet_id') }}">
                         
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Nama Menu</th>
-                                    <th scope="col">Jumlah Terjual</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($menu as $item)    
-                                <tr>
-                                    <th scope="row">{{ $item->id }}</th>
-                                    <td>{{ $item->nama_menu }}</td>
-                                    <td>
-                                        <form action="{{ route('menuterjual.create') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="nama_menu" value="{{ $item->nama_menu }}">
-                                            <div class="input-group">
-                                                <input type="number" name="jumlah" class="form-control" required>
-                                                @error('jumlah')
-                                                    <div class="alert alert-danger">{{ $message }}</div>
-                                                @enderror
-                                                <input type="hidden" name="user_name" value="{{ Auth::user()->name }}">
-                                                <div class="input-group-append">
-                                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        
+                        <div id="bahan-container">
+                            <div class="form-row align-items-center mb-3" id="bahan-group-0">
+                                <div class="col-md-5">
+                                    <label for="menu_id_0" class="font-weight-bold">Nama Menu:</label>
+                                    <select id="menu_id_0" name="menu_id[]" class="form-control" required>
+                                        <option value="" disabled selected>Select Nama Menu</option>
+                                        @foreach ($soldMenus as $item)
+                                            <option value="{{ $item->id }}">{{ $item->nama_menu }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
+                                <div class="col-md-3">
+                                    <label for="qty_mt_0" class="font-weight-bold">Quantity Terjual:</label>
+                                    <input type="number" step="0.01" id="qty_mt_0" name="qty_mt[]" class="form-control" placeholder="0.0" required>
+                                </div>
 
-                        {{-- @error('nama_menu')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+                                <div class="col-md-2">
+                                    <label>&nbsp;</label><br>
+                                    <button type="button" class="btn btn-danger remove-btn" style="width: 100%;">
+                                        <i class="fa-solid fa-trash" style="color: #ffffff;"></i> Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
 
-                        <br>
-                        <label for="jumlah">Jumlah:</label>
-                        <br>
-                        <input type="text" id="jumlah" name="jumlah" required>
-                        @error('jumlah')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                        <br>
-
-                        <button type="submit" class="btn btn-primary" id="submit-button">Tambahkan</button>
-                    </form> --}}
+                        <div class="d-flex justify-content-end">
+                            <button type="button" id="add-more" class="btn btn-secondary mr-2">Add More</button>
+                            <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to add this menu?');">Submit</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    @endsection
-   
+    {{-- Daftar Menu Terjual --}}
+    <div class="row justify-content-center">
+        <div class="col-lg-12 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3 bg-success text-white">
+                    <h2 class="text-center m-0 font-weight-bold h3" style="font-size: 1.5rem;">List Menu Terjual</h2>
+                    <input type="text" id="search-input" class="form-control mt-3" placeholder="Search Sold Menus">
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="soldMenuTable" class="table table-striped table-bordered table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="text-center">Nama Menu</th>
+                                    <th class="text-center">Outlet</th>
+                                    <th class="text-center">Total Quantity Terjual</th>
+                                    <th class="text-center">User Name</th>
+                                    <th class="text-center">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($soldMenus as $soldMenu)
+                                    <tr class="sold-menu-item">
+                                        <td class="text-center">{{ $soldMenu->menu->nama_menu }}</td>
+                                        <td class="text-center">{{ $soldMenu->outlet->nama_outlet }}</td>
+                                        <td class="text-center">{{ $soldMenu->total_qty }}</td>
+                                        <td class="text-center">{{ $userDetails[$soldMenu->menu_id]->first()->user_name }}</td>
+                                        <td class="text-center">{{ $userDetails[$soldMenu->menu_id]->first()->created_at->format('d/m/Y H:i:s') }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
+                    {{-- DataTables Scripts --}}
+                    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+                    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+                    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+                    <script>
+                        $(document).ready(function() {
+                            $('#soldMenuTable').DataTable();
 
-
-
-@elseif(Auth::user()->role==='user')
-    @section('navitem')
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Stok Barang
+                            // Search functionality
+                            $('#search-input').on('input', function() {
+                                const searchQuery = this.value.toLowerCase();
+                                $('.sold-menu-item').each(function() {
+                                    const itemText = $(this).text().toLowerCase();
+                                    $(this).toggle(itemText.includes(searchQuery));
+                                });
+                            });
+                        });
+                    </script>
+                </div>
             </div>
+        </div>
+    </div>
+</div>
 
-            
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Stok</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Olah Data Stok:</h6>
-                        {{-- <a class="collapse-item" href="">Add Stok</a> --}}
-                        <a class="collapse-item" href="{{ route('showbahan') }}">List Stok</a>
-                        {{-- <a class="collapse-item" href="ListStok.html">Stok Keluar</a> --}}
-                        <a class="collapse-item" href="{{ route('history') }}">History</a>
- 
-                    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let counter = 1;
+
+        function fetchMenus(outletId, dropdown) {
+            if (!outletId) return;
+            fetch(`/menuterjual/get-menus/${outletId}`)
+                .then(response => response.json())
+                .then(data => {
+                    dropdown.innerHTML = '<option value="" disabled selected>Select Nama Menu</option>';
+                    data.forEach(menu => {
+                        dropdown.innerHTML += `<option value="${menu.id}">${menu.nama_menu}</option>`;
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        const outletIdElement = document.querySelector('[name="outlet_id"]');
+        const initialOutletId = outletIdElement.value;
+
+        document.querySelectorAll('select[name="menu_id[]"]').forEach(dropdown => {
+            fetchMenus(initialOutletId, dropdown);
+        });
+
+        document.getElementById('add-more').addEventListener('click', function () {
+            const container = document.getElementById('bahan-container');
+            const newGroup = document.createElement('div');
+            newGroup.classList.add('form-row', 'align-items-center', 'mb-3');
+            newGroup.id = `bahan-group-${counter}`;
+            newGroup.innerHTML = `
+                <div class="col-md-5">
+                    <label for="menu_id_${counter}" class="font-weight-bold">Nama Menu:</label>
+                    <select id="menu_id_${counter}" name="menu_id[]" class="form-control" required>
+                        <option value="" disabled selected>Select Nama Menu</option>
+                    </select>
                 </div>
-            </li>
 
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Menu</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Olah Data Menu:</h6>
-                        {{-- <a class="collapse-item" href="utilities-color.html">Add Menu</a> --}}
-                        <a class="collapse-item" href="{{ route('listmenu') }}">List Menu</a>
-                    
-                    </div>
+                <div class="col-md-3">
+                    <label for="qty_mt_${counter}" class="font-weight-bold">Quantity Terjual:</label>
+                    <input type="number" step="0.01" id="qty_mt_${counter}" name="qty_mt[]" class="form-control" placeholder="0.0" required>
                 </div>
-            </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Laporan Stok
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Perbandingan</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Detail:</h6>
-                        <a class="collapse-item" href="perbandingan.html">Perbandingan</a>
- 
-                    </div>
+                <div class="col-md-2">
+                    <label>&nbsp;</label><br>
+                    <button type="button" class="btn btn-danger remove-btn" style="width: 100%;">
+                        <i class="fa-solid fa-trash" style="color: #ffffff;"></i> Remove
+                    </button>
                 </div>
-            </li>
+            `;
+            container.appendChild(newGroup);
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
+            const newDropdown = newGroup.querySelector('select[name="menu_id[]"]');
+            fetchMenus(initialOutletId, newDropdown);
 
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>
+            attachRemoveEvent(newGroup.querySelector('.remove-btn'));
 
-    @endsection
+            counter++;
+        });
 
-    @section('main')
-            kosong
-    @endsection
-@endif
+        function attachRemoveEvent(button) {
+            button.addEventListener('click', function () {
+                button.parentElement.parentElement.remove();
+            });
+        }
+
+        document.querySelectorAll('.remove-btn').forEach(button => {
+            attachRemoveEvent(button);
+        });
+    });
+</script>
+@endsection

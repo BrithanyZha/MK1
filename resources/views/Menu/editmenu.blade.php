@@ -1,347 +1,151 @@
 @extends('dashboard.index')
-@if(Auth::user()->role==='admin')
-    
-    @section('topbar')
-    <ul class="navbar-nav ml-auto">
-        <!-- Nav Item - User Information -->
-        <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
-                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
-            </a>
-            <!-- Dropdown - User Information -->
-            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Profile
-                </a>
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Activity Log
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
-                </a>
-            </div>
-        </li>
-    </ul>
 
-    </nav>
-    @endsection
-
-                                                        {{-- NAVITEM --}}
-
-    @section('navitem')
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Stok Barang
-            </div>
-
-            
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Stok</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Olah Data Stok:</h6>
-                        <a class="collapse-item" href="{{ route('tambah')}}">Add Stok</a>
-                        <a class="collapse-item" href="{{ route('satuan')}}">Add Satuan</a>
-                        <a class="collapse-item" href="{{ route('showbahan')}}">List Stok</a>
-                        <a class="collapse-item" href="{{ route('history')}}">History</a>
-
-
-                        
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Menu</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Olah Data Menu:</h6>
-                        <a class="collapse-item" href="{{ route('addmenu.index')}}">Add Menu</a>
-                        <a class="collapse-item" href="{{ route('listmenu') }}">List Menu</a>
-                        <a class="collapse-item" href="{{ route('historymenu') }}">History</a>
-                        <a class="collapse-item" href="{{ route('menuterjual') }}">Menu Terjual</a>
-                        <a class="collapse-item" href="{{ route('menuterjual.show') }}"> History Menu Terjual</a>
-
-                    
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Perbandingan
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Perbandingan</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Detail:</h6>
-                        <a class="collapse-item" href="perbandingan.html">Perbandingan</a>
-                        <a class="collapse-item" href="perbandingan.html">Perhitungan</a>
- 
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>
-
-    @endsection
-    @section('main')
-    <div class="container">
-        <h1>Edit Menu</h1>
-        <form action="{{ route('addmenu.update', $addmenu->id) }}" method="POST">
-            @csrf
-            @method('PUT')
-
-            <div class="form-group">
-                <label for="nama_menu">Nama Menu</label>
-                <input type="text" name="nama_menu" class="form-control" value="{{ $addmenu->nama_menu }}" required>
-            </div>
-
-            <div id="bahan-container">
-                @foreach($addmenu->nama_bahan as $index => $bahan)
-                    <div class="form-group row">
-                        <div class="col-md-4">
-                            <label for="nama_bahan">Nama Bahan</label>
-                            <select name="nama_bahan[]" class="form-control" required>
-                                @foreach($bahans as $bahanOption)
-                                    <option value="{{ $bahanOption->nama_bahan }}" {{ $bahanOption->nama_bahan == $bahan ? 'selected' : '' }}>
-                                        {{ $bahanOption->nama_bahan }}
-                                    </option>
+@section('main')
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h2 class="text-center m-0 font-weight-bold text-primary">Edit Resep</h2>
+                    <form action="{{ route('menu.update', $menuId) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <!-- Hidden field to keep the selected outlet ID -->
+                        <input type="hidden" id="outlet_id" name="outlet_id" value="{{ request()->input('outlet_id') }}">
+                        <div class="form-group">
+                            <label for="menu_id">Nama Menu:</label>
+                            <input type="text" class="form-control" id="menu_id" name="menu_id" value="{{ $menu->nama_menu }}" required>
+                        </div>
+                   
+                        {{-- <div class="form-group">
+                            <label for="outlet_id">Outlet:</label>
+                            <select id="outlet_id" name="outlet_id" class="form-control" required>
+                                @foreach ($outlet as $outlet)
+                                    <option value="{{ $outlet->id }}" {{ $outlet->id == $menu->outlet_id ? 'selected' : '' }}>{{ $outlet->nama_outlet }}</option>
                                 @endforeach
                             </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="jml_takaran">Jumlah Takaran</label>
-                            <input type="text" name="jml_takaran[]" class="form-control" value="{{ $addmenu->jml_takaran[$index] }}" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="satuan">Satuan</label>
-                            <select name="satuan[]" class="form-control" required>
-                                @foreach($satuans as $satuanOption)
-                                    <option value="{{ $satuanOption->satuan }}" {{ $satuanOption->satuan == $addmenu->satuan[$index] ? 'selected' : '' }}>
-                                        {{ $satuanOption->satuan }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-12 mt-2">
-                            <button type="button" class="btn btn-danger btn-sm remove-bahan">Remove</button>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
+                        </div> --}}
 
-            <button type="button" class="btn btn-secondary" id="add-bahan">Add More Bahan</button>
-            <br>
-            <button type="submit" class="btn btn-primary mt-3">Update</button>
-        </form>
-    </div>
+                        <div id="bahan-container">
+                            @foreach ($details as $index => $detail)
+                                <div class="d-flex mb-3" id="bahan-group-{{ $index }}">
+                                    <label for="bahan_id_{{ $index }}" class="mr-2">Nama Bahan:</label>
+                                    <select id="bahan_id_{{ $index }}" name="bahan_id[]" class="form-control mr-3" value="{{ $detail->bahan_inisiasi->nama_bahan}}"required>
+                                        @foreach ($bahans as $bahan)
+                                            <option value="{{ $bahan->id }}" {{ $bahan->id == $detail->bahan_id ? 'selected' : '' }}>{{ $bahan->bahan_inisiasi->nama_bahan }}</option>
+                                        @endforeach
+                                    </select>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('add-bahan').addEventListener('click', function() {
-                let container = document.getElementById('bahan-container');
-                let newBahan = document.createElement('div');
-                newBahan.classList.add('form-group', 'row');
-                newBahan.innerHTML = `
-                    <div class="col-md-4">
-                        <label for="nama_bahan">Nama Bahan</label>
-                        <select name="nama_bahan[]" class="form-control" required>
-                            @foreach($bahans as $bahanOption)
-                                <option value="{{ $bahanOption->nama_bahan }}">{{ $bahanOption->nama_bahan }}</option>
+                                    <label for="qty_takaran_{{ $index }}" class="mr-2">Quantity Takaran:</label>
+                                    <input type="number" step="0.01" id="qty_takaran_{{ $index }}" name="qty_takaran[]" class="form-control mr-3" value="{{ $detail->qty_takaran }}" required>
+
+                                    <label for="unit_name_{{ $index }}" class="mr-2">Unit:</label>
+                                    <input type="hidden" id="unit_id_{{ $index }}" name="unit_id[]" value="{{ $detail->unit_id }}">
+                                    <input type="text" id="unit_name_{{ $index }}" name="unit_name[]" class="form-control" value="{{ $detail->unit->unit }}" readonly>
+
+                                    <button type="button" class="btn btn-danger btn-sm remove-bahan" data-index="{{ $index }}"><i class="fa fa-trash"></i></button>
+                                    <input type="hidden" name="deleted_items[]" id="deleted_items_{{ $index }}" value="0">
+                                    {{-- jika bahan yang sebelumnya di remove  di dalam edit  maka akan terhapus di database nya --}}
+                                </div>
                             @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="jml_takaran">Jumlah Takaran</label>
-                        <input type="text" name="jml_takaran[]" class="form-control" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="satuan">Satuan</label>
-                        <select name="satuan[]" class="form-control" required>
-                            @foreach($satuans as $satuanOption)
-                                <option value="{{ $satuanOption->satuan }}">{{ $satuanOption->satuan }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-12 mt-2">
-                        <button type="button" class="btn btn-danger btn-sm remove-bahan">Remove</button>
-                    </div>
-                `;
-                container.appendChild(newBahan);
-                addRemoveFunctionality();
-            });
+                        </div>
 
-            function addRemoveFunctionality() {
-                let removeButtons = document.querySelectorAll('.remove-bahan');
-                removeButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        this.closest('.form-group.row').remove();
+                        <div class="btn-group mt-3">
+                            <button type="button" id="add-more" class="btn btn-secondary">Add More</button>
+                            <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to change this Recipe?');">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        let counter = {{ count($details) }};
+
+                        function fetchBahans(outletId, dropdown) {
+                            fetch(`/addmenu/get-bahansmenu/${outletId}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    dropdown.innerHTML = '<option value="" disabled selected>Select Nama Bahan</option>';
+                                    data.forEach(bahan => {
+                                        dropdown.innerHTML += `<option value="${bahan.id}">${bahan.nama_bahan}</option>`;
+                                    });
+                                })
+                                .catch(error => console.error('Error:', error));
+                        }
+
+                        function fetchUnit(bahanId, index) {
+                            fetch(`/addmenu/get-unitmenu/${encodeURIComponent(bahanId)}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    document.getElementById(`unit_id_${index}`).value = data.unit_id || '';
+                                    document.getElementById(`unit_name_${index}`).value = data.unit_name || '';
+                                })
+                                .catch(error => console.error('Error:', error));
+                        }
+
+                        document.getElementById('outlet_id').addEventListener('change', function() {
+                            const outletId = this.value;
+                            document.querySelectorAll('select[id^="bahan_id_"]').forEach(dropdown => {
+                                fetchBahans(outletId, dropdown);
+                            });
+                        });
+
+                        document.getElementById('add-more').addEventListener('click', function() {
+                            const container = document.getElementById('bahan-container');
+                            const newGroup = document.createElement('div');
+                            newGroup.classList.add('d-flex', 'mb-3');
+                            newGroup.id = `bahan-group-${counter}`;
+                            newGroup.innerHTML = `
+                                <label for="bahan_id_${counter}" class="mr-2">Nama Bahan:</label>
+                                <select id="bahan_id_${counter}" name="bahan_id[]" class="form-control mr-3" required>
+                                    <option value="" disabled selected>Select Nama Bahan</option>
+                                    @foreach ($bahans as $bahan)
+                                        <option value="{{ $bahan->id }}">{{ $bahan->nama_bahan }}</option>
+                                    @endforeach
+                                </select>
+
+                                <label for="qty_takaran_${counter}" class="mr-2">Quantity Takaran:</label>
+                                <input type="number" step="0.01" id="qty_takaran_${counter}" name="qty_takaran[]" class="form-control mr-3" placeholder="0.0" required>
+
+                                <label for="unit_name_${counter}" class="mr-2">Unit:</label>
+                                <input type="hidden" id="unit_id_${counter}" name="unit_id[]">
+                                <input type="text" id="unit_name_${counter}" name="unit_name[]" class="form-control" readonly>
+
+                                <button type="button" class="btn btn-danger btn-sm remove-bahan" data-index="${counter}"><i class="fa fa-trash"></i></button>
+                                <input type="hidden" name="deleted_items[]" id="deleted_items_${counter}" value="0">
+                            `;
+
+                            container.appendChild(newGroup);
+                            fetchBahans(document.getElementById('outlet_id').value, newGroup.querySelector('select'));
+
+                            newGroup.querySelector('.remove-bahan').addEventListener('click', function() {
+                                newGroup.remove();
+                            });
+
+                            newGroup.querySelector(`select[id^="bahan_id_"]`).addEventListener('change', function() {
+                                const index = this.id.split('_').pop();
+                                fetchUnit(this.value, index);
+                            });
+
+                            counter++;
+                        });
+
+                        document.querySelectorAll('.remove-bahan').forEach(button => {
+                            button.addEventListener('click', function() {
+                                const index = this.getAttribute('data-index');
+                                document.getElementById(`bahan-group-${index}`).remove();
+                                document.getElementById(`deleted_items_${index}`).value = '1';
+                            });
+                        });
+
+                        document.querySelectorAll('select[id^="bahan_id_"]').forEach((dropdown, index) => {
+                            dropdown.addEventListener('change', function() {
+                                fetchUnit(this.value, index);
+                            });
+                        });
                     });
-                    
-                });
-            }
-
-            addRemoveFunctionality();
-        });
-    </script>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
-
-
-
-
-
-@elseif(Auth::user()->role==='user')
-    @section('navitem')
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Stok Barang
-            </div>
-
-            
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Stok</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Olah Data Stok:</h6>
-                        {{-- <a class="collapse-item" href="">Add Stok</a> --}}
-                        <a class="collapse-item" href="{{ route('showbahan') }}">List Stok</a>
-                        {{-- <a class="collapse-item" href="ListStok.html">Stok Keluar</a> --}}
-                        <a class="collapse-item" href="{{ route('history') }}">History</a>
- 
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Menu</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Olah Data Menu:</h6>
-                        {{-- <a class="collapse-item" href="utilities-color.html">Add Menu</a> --}}
-                        <a class="collapse-item" href="{{ route('listmenu') }}">List Menu</a>
-                    
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Perbandingan
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Perbandingan</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Detail:</h6>
-                        <a class="collapse-item" href="perbandingan.html">Perbandingan</a>
- 
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>
-
-    @endsection
-
-    @section('main')
-            kosong
-    @endsection
-@endif
